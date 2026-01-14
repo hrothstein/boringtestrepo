@@ -1,8 +1,0 @@
-{
-  "name": "cms-demo-mcp-server",
-  "minMuleVersion": "4.10.0",
-  "javaSpecificationVersions": [
-    "17"
-  ]
-}
-

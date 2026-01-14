@@ -1,7 +1,0 @@
-{
-  "name": "agent-broker-web-ui",
-  "minMuleVersion": "4.10.0",
-  "javaSpecificationVersions": [
-    "17"
-  ]
-}
