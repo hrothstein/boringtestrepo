@@ -1,0 +1,1177 @@
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 15:25:51 EST 2026
+=========================================
+✗ FAIL: health-check - Health endpoint failed
+✗ FAIL: get-all-customers-empty - Expected empty array
+✗ FAIL: create-customer-valid - Failed to create customer
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+✗ FAIL: create-customer-missing-content-type - Should reject missing Content-Type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 0
+Failed: 16
+Pass Rate: 0%
+Completed: Tue Jan 13 15:25:52 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 15:25:56 EST 2026
+=========================================
+✗ FAIL: health-check - Health endpoint failed
+✗ FAIL: get-all-customers-empty - Expected empty array
+✗ FAIL: create-customer-valid - Failed to create customer
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+✗ FAIL: create-customer-missing-content-type - Should reject missing Content-Type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 0
+Failed: 16
+Pass Rate: 0%
+Completed: Tue Jan 13 15:25:57 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 15:26:20 EST 2026
+=========================================
+✗ FAIL: health-check - Health endpoint failed
+✗ FAIL: get-all-customers-empty - Expected empty array
+✗ FAIL: create-customer-valid - Failed to create customer
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+✗ FAIL: create-customer-missing-content-type - Should reject missing Content-Type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 0
+Failed: 16
+Pass Rate: 0%
+Completed: Tue Jan 13 15:26:20 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 15:44:12 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 15:52:14 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:00:05 EST 2026
+=========================================
+Waiting for application to be ready...
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:03:01 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:06:32 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:16:18 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:39:38 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:44:46 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:51:27 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 16:56:32 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 09:13:30 EST 2026
+=========================================
+Waiting for application to be ready...
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 09:16:31 EST 2026
+=========================================
+Waiting for application to be ready...
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 09:19:15 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 09:22:40 EST 2026
+=========================================
+Waiting for application to be ready...
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 09:28:38 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 09:32:31 EST 2026
+=========================================
+Waiting for application to be ready...
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 09:54:40 EST 2026
+=========================================
+Waiting for application to be ready...
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:01:31 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+  Response: No listener for endpoint: /customers/550e8400-e29b-41d4-a716-446655440000
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+  Response: No listener for endpoint: /customers/550e8400-e29b-41d4-a716-446655440000
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+  Response: No listener for endpoint: /customers/550e8400-e29b-41d4-a716-446655440000
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:01:33 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:07:14 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:07:15 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:19:30 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:19:31 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:25:40 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:25:42 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:37:39 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:37:40 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:41:02 EST 2026
+=========================================
+Waiting for application to be ready...
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:43:10 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: Cannot invoke "org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)" because the return value of "java.util.Map.get(Object)" is null
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:43:12 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:44:07 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:44:08 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:46:46 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:46:47 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 10:47:41 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "invalid-email"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane@example.com",
+  "phone": "1234567890"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane2@example.com",
+  "accountStatus": "INVALID"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "john.doe@example.com"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 10:47:42 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 13:28:57 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✓ PASS: create-customer-invalid-email
+✓ PASS: create-customer-invalid-phone
+✓ PASS: create-customer-invalid-status
+✓ PASS: create-customer-duplicate-email
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 6
+Failed: 10
+Pass Rate: 37%
+Completed: Wed Jan 14 13:28:59 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 13:31:58 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "+1234567890",
+  "accountStatus": "ACTIVE"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "lastName": "Doe",
+  "email": "test@example.com"
+}
+✓ PASS: create-customer-invalid-email
+✓ PASS: create-customer-invalid-phone
+✓ PASS: create-customer-invalid-status
+✓ PASS: create-customer-duplicate-email
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 6
+Failed: 10
+Pass Rate: 37%
+Completed: Wed Jan 14 13:32:00 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 13:33:25 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 13:33:26 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 13:35:01 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 13:35:02 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 13:36:06 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 13:36:07 EST 2026
+=========================================
+=========================================
+Customer Management API Test Suite
+Started: Wed Jan 14 13:38:14 EST 2026
+=========================================
+Waiting for application to be ready...
+Application is ready!
+✓ PASS: health-check
+✗ FAIL: get-all-customers-empty - Expected empty array
+  Response: [
+  
+]
+✗ FAIL: create-customer-valid - Failed to create customer
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-missing-firstname - Should reject missing firstName
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-email - Should reject invalid email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-phone - Should reject invalid phone format
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-invalid-status - Should reject invalid accountStatus
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✗ FAIL: create-customer-duplicate-email - Should reject duplicate email
+  Response: {
+  "error": "Bad Request",
+  "message": "Validation failed"
+}
+✓ PASS: create-customer-missing-content-type
+✗ FAIL: get-customer-by-id-existing - No customer ID available
+  Response: N/A
+✗ FAIL: get-customer-by-id-not-found - Should return 404 for non-existing customer
+✗ FAIL: update-customer-valid - No customer ID available
+  Response: N/A
+✗ FAIL: update-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: delete-customer-existing - No customer ID available
+  Response: N/A
+✗ FAIL: delete-customer-not-found - Should return 404 for non-existing customer
+✗ FAIL: get-all-customers-with-data - Failed to retrieve customers
+  Response: [
+  
+]
+=========================================
+Test Summary
+Total Tests: 16
+Passed: 2
+Failed: 14
+Pass Rate: 12%
+Completed: Wed Jan 14 13:38:14 EST 2026
+=========================================

@@ -1,0 +1,9 @@
+=========================================
+Customer Management API Test Suite
+Started: Tue Jan 13 15:44:12 EST 2026
+=========================================
+
+Waiting for application to be ready...
+............................................................
+ERROR: Application did not become ready within 120 seconds
+Please ensure the Mule application is running on port 8081

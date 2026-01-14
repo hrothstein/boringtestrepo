@@ -1,0 +1,74 @@
+{
+  "test_suite": "customer-api-prd-test-suite",
+  "timestamp": "2026-01-14T15:07:15.000Z",
+  "total_tests": 16,
+  "passed": 2,
+  "failed": 14,
+  "pass_rate": "12%",
+  "tests": [
+    {"name":"health-check","status":"PASS","message":"Health endpoint returns UP","response_code":"200","response":"{
+  \"status\": \"UP\",
+  \"timestamp\": \"2026-01-14T10:07:14.823Z\"
+}"}
+,
+    {"name":"get-all-customers-empty","status":"FAIL","message":"Expected empty array","response_code":"500","response":"Cannot invoke \"org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)\" because the return value of \"java.util.Map.get(Object)\" is null"}
+,
+    {"name":"create-customer-valid","status":"FAIL","message":"Failed to create customer","response_code":"200","response":"{
+  \"firstName\": \"John\",
+  \"lastName\": \"Doe\",
+  \"email\": \"john.doe@example.com\",
+  \"phone\": \"+1234567890\",
+  \"accountStatus\": \"ACTIVE\"
+}"}
+,
+    {"name":"create-customer-missing-firstname","status":"FAIL","message":"Should reject missing firstName","response_code":"200","response":"{
+  \"lastName\": \"Doe\",
+  \"email\": \"test@example.com\"
+}"}
+,
+    {"name":"create-customer-invalid-email","status":"FAIL","message":"Should reject invalid email","response_code":"200","response":"{
+  \"firstName\": \"Jane\",
+  \"lastName\": \"Smith\",
+  \"email\": \"invalid-email\"
+}"}
+,
+    {"name":"create-customer-invalid-phone","status":"FAIL","message":"Should reject invalid phone format","response_code":"200","response":"{
+  \"firstName\": \"Jane\",
+  \"lastName\": \"Smith\",
+  \"email\": \"jane@example.com\",
+  \"phone\": \"1234567890\"
+}"}
+,
+    {"name":"create-customer-invalid-status","status":"FAIL","message":"Should reject invalid accountStatus","response_code":"200","response":"{
+  \"firstName\": \"Jane\",
+  \"lastName\": \"Smith\",
+  \"email\": \"jane2@example.com\",
+  \"accountStatus\": \"INVALID\"
+}"}
+,
+    {"name":"create-customer-duplicate-email","status":"FAIL","message":"Should reject duplicate email","response_code":"200","response":"{
+  \"firstName\": \"Jane\",
+  \"lastName\": \"Smith\",
+  \"email\": \"john.doe@example.com\"
+}"}
+,
+    {"name":"create-customer-missing-content-type","status":"PASS","message":"Correctly rejected missing Content-Type","response_code":"415","response":"{
+  \"error\": \"Unsupported Media Type\",
+  \"message\": \"Content-Type must be application/json\"
+}"}
+,
+    {"name":"get-customer-by-id-existing","status":"SKIP","message":"No customer ID available","response_code":"N/A","response":"N/A"}
+,
+    {"name":"get-customer-by-id-not-found","status":"FAIL","message":"Should return 404 for non-existing customer","response_code":"200","response":""}
+,
+    {"name":"update-customer-valid","status":"SKIP","message":"No customer ID available","response_code":"N/A","response":"N/A"}
+,
+    {"name":"update-customer-not-found","status":"FAIL","message":"Should return 404 for non-existing customer","response_code":"200","response":""}
+,
+    {"name":"delete-customer-existing","status":"SKIP","message":"No customer ID available","response_code":"N/A","response":"N/A"}
+,
+    {"name":"delete-customer-not-found","status":"FAIL","message":"Should return 404 for non-existing customer","response_code":"200","response":""}
+,
+    {"name":"get-all-customers-with-data","status":"FAIL","message":"Failed to retrieve customers","response_code":"500","response":"Cannot invoke \"org.mule.runtime.api.alert.AlertingSupport.triggerAlert(String, Object)\" because the return value of \"java.util.Map.get(Object)\" is null"}
+  ]
+}

@@ -1,0 +1,94 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/opt/homebrew/Cellar/maven/3.9.11/libexec/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.mulesoft.app:customer-management-api >--------------
+[INFO] Building customer-management-api 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------[ mule-application ]--------------------------
+[INFO] 
+[INFO] --- clean:3.1.0:clean (default-clean-1) @ customer-management-api ---
+[INFO] 
+[INFO] --- clean:3.1.0:clean (default-clean) @ customer-management-api ---
+[INFO] 
+[INFO] --- mule:4.0.0:clean (default-clean) @ customer-management-api ---
+[INFO] 
+[INFO] --- mule:4.0.0:validate (default-validate) @ customer-management-api ---
+[INFO] 
+[INFO] --- mule:4.0.0:initialize (default-initialize) @ customer-management-api ---
+[INFO] 
+[INFO] --- mule:4.0.0:generate-sources (default-generate-sources) @ customer-management-api ---
+[INFO] 
+[INFO] --- mule:4.0.0:process-sources (default-process-sources) @ customer-management-api ---
+[INFO] About to fetch required dependencies for artifact: com.mulesoft.app:customer-management-api:pom:1.0.0. This may take a while...
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ customer-management-api ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- mule:4.0.0:process-resources (default-process-resources) @ customer-management-api ---
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ customer-management-api ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- mule:4.0.0:compile (default-compile) @ customer-management-api ---
+[INFO] 
+[INFO] --- mule:4.0.0:process-classes (default-process-classes) @ customer-management-api ---
+[INFO] About to fetch required dependencies for artifact: b0aab940-f158-11f0-bea9-eec87fc18dae:b0aab940-f158-11f0-bea9-eec87fc18dae:pom:4.5.0. This may take a while...
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[INFO] About to fetch required dependencies for artifact: b13f3110-f158-11f0-bea9-eec87fc18dae:b13f3110-f158-11f0-bea9-eec87fc18dae:pom:4.5.0. This may take a while...
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[INFO] About to fetch required dependencies for artifact: b163a900-f158-11f0-bea9-eec87fc18dae:b163a900-f158-11f0-bea9-eec87fc18dae:pom:4.5.0. This may take a while...
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[INFO] About to fetch required dependencies for artifact: b19a9780-f158-11f0-bea9-eec87fc18dae:b19a9780-f158-11f0-bea9-eec87fc18dae:pom:4.5.0. This may take a while...
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[INFO] About to fetch required dependencies for artifact: b1b7e380-f158-11f0-bea9-eec87fc18dae:b1b7e380-f158-11f0-bea9-eec87fc18dae:pom:4.5.0. This may take a while...
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] A Keys Resolver is being defined without defining an Output Resolver, Input Resolver nor Attributes Resolver
+[WARNING] java.lang.ClassNotFoundException: org.mule.runtime.core.api.extension.MuleExtensionModelProvider
+[INFO] 
+[INFO] --- mule:4.0.0:generate-test-sources (default-generate-test-sources) @ customer-management-api ---
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ customer-management-api ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- mule:4.0.0:generate-test-resources (default-generate-test-resources) @ customer-management-api ---
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ customer-management-api ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- mule:4.0.0:test-compile (default-test-compile) @ customer-management-api ---
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ customer-management-api ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- mule:4.0.0:package (default-package) @ customer-management-api ---
+[INFO] Building zip: /Users/hrothstein/cursorrepos/build-compare-test/mulesoft/customer-management-api/target/customer-management-api-1.0.0-mule-application.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.988 s
+[INFO] Finished at: 2026-01-14T09:52:50-05:00
+[INFO] ------------------------------------------------------------------------

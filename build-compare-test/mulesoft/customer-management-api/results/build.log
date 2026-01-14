@@ -1,0 +1,34 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/opt/homebrew/Cellar/maven/3.9.11/libexec/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------< com.mulesoft.app:customer-management-api >--------------
+[INFO] Building customer-management-api 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------[ mule-application ]--------------------------
+Downloading from mulesoft-private: https://repository.mulesoft.org/nexus/content/repositories/private/com/mulesoft/licm/licm/2.2.0/licm-2.2.0.pom
+Downloading from mulesoft-private: https://repository.mulesoft.org/nexus/content/repositories/private/com/mulesoft/munit/tools/munit-runner/2.5.7/munit-runner-2.5.7.pom
+Downloading from mulesoft-private: https://repository.mulesoft.org/nexus/content/repositories/private/com/mulesoft/munit/tools/munit-tools/2.5.7/munit-tools-2.5.7.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.434 s
+[INFO] Finished at: 2026-01-13T14:39:46-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal on project customer-management-api: Could not collect dependencies for project com.mulesoft.app:customer-management-api:mule-application:1.0.0
+[ERROR] Failed to read artifact descriptor for com.mulesoft.licm:licm:jar:2.2.0
+[ERROR] 	Caused by: The following artifacts could not be resolved: com.mulesoft.licm:licm:pom:2.2.0 (absent): Could not transfer artifact com.mulesoft.licm:licm:pom:2.2.0 from/to mulesoft-private (https://repository.mulesoft.org/nexus/content/repositories/private/): status code: 401, reason phrase: Unauthorized (401)
+[ERROR] Failed to read artifact descriptor for com.mulesoft.munit.tools:munit-runner:jar:mule-plugin:2.5.7
+[ERROR] 	Caused by: The following artifacts could not be resolved: com.mulesoft.munit.tools:munit-runner:pom:2.5.7 (absent): Could not transfer artifact com.mulesoft.munit.tools:munit-runner:pom:2.5.7 from/to mulesoft-private (https://repository.mulesoft.org/nexus/content/repositories/private/): status code: 401, reason phrase: Unauthorized (401)
+[ERROR] Failed to read artifact descriptor for com.mulesoft.munit.tools:munit-tools:jar:mule-plugin:2.5.7
+[ERROR] 	Caused by: The following artifacts could not be resolved: com.mulesoft.munit.tools:munit-tools:pom:2.5.7 (absent): Could not transfer artifact com.mulesoft.munit.tools:munit-tools:pom:2.5.7 from/to mulesoft-private (https://repository.mulesoft.org/nexus/content/repositories/private/): status code: 401, reason phrase: Unauthorized (401)
+[ERROR] 
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/DependencyResolutionException

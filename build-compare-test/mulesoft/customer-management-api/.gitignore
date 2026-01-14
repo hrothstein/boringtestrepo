@@ -40,3 +40,4 @@ Thumbs.db
 *.rar
 *.d.ts
 *.js.map 
+.tooling-project

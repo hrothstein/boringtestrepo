@@ -1,0 +1,45 @@
+{
+  "test_suite": "customer-api-prd-test-suite",
+  "timestamp": "2026-01-14T12:05:03.043981",
+  "total_tests": 7,
+  "passed": 3,
+  "failed": 4,
+  "pass_rate": "42%",
+  "tests": [
+    {
+      "name": "health-check",
+      "status": "PASS",
+      "message": "PASS"
+    },
+    {
+      "name": "get-all-empty",
+      "status": "FAIL",
+      "message": "Expected status 200, got 200 | Expected content not found"
+    },
+    {
+      "name": "create-valid",
+      "status": "FAIL",
+      "message": "Expected status 201, got 400 | Expected content not found"
+    },
+    {
+      "name": "create-missing-firstname",
+      "status": "FAIL",
+      "message": "Expected status 400, got 400 | Expected content not found"
+    },
+    {
+      "name": "create-invalid-email",
+      "status": "PASS",
+      "message": "PASS"
+    },
+    {
+      "name": "create-invalid-phone",
+      "status": "PASS",
+      "message": "PASS"
+    },
+    {
+      "name": "get-by-id-not-found",
+      "status": "FAIL",
+      "message": "Expected status 404, got 200 | Expected content not found"
+    }
+  ]
+}

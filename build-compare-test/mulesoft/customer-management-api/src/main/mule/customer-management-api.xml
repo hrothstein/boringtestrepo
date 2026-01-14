@@ -4,342 +4,545 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:http="http://www.mulesoft.org/schema/mule/http"
   xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-  xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
   xmlns:os="http://www.mulesoft.org/schema/mule/os"
   xsi:schemaLocation="
     http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
     http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-    http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+    http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
     http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 
   <!-- Main API Flow - Routes all requests -->
   <flow name="api-main" doc:name="api-main">
-    <http:listener doc:name="HTTP Listener" config-ref="HTTP_Listener_config" path="/customers">
-      <http:response statusCode="#[vars.httpStatus default 200]">
-        <http:body><![CDATA[#[payload]]]></http:body>
-        <http:headers><![CDATA[#[output application/java --- { 'Content-Type': 'application/json' }]]]></http:headers>
-      </http:response>
-    </http:listener>
+    <http:listener doc:name="HTTP Listener" config-ref="HTTP_Listener_config" path="/customers/*"/>
     
-    <ee:transform doc:name="Set HTTP Status">
+    <try doc:name="Try">
+      <ee:transform doc:name="Initialize HTTP Status">
       <ee:message>
-        <ee:set-variable variableName="httpStatus"><![CDATA[200]]></ee:set-variable>
+        <ee:set-payload><![CDATA[#[payload]]]></ee:set-payload>
       </ee:message>
+      <ee:variables>
+        <ee:set-variable variableName="httpStatus"><![CDATA[200]]></ee:set-variable>
+      </ee:variables>
+    </ee:transform>
+    
+    <ee:transform doc:name="Extract ID from Path">
+      <ee:variables>
+        <ee:set-variable variableName="pathId"><![CDATA[#[if (attributes.requestPath != null and attributes.requestPath != '/customers' and (attributes.requestPath startsWith '/customers/')) then (attributes.requestPath replace '/customers/' with '') else null]]]></ee:set-variable>
+      </ee:variables>
     </ee:transform>
     
     <choice doc:name="Route by HTTP Method">
-      <when expression="#[attributes.method == 'GET' and attributes.uriParams.id == null]">
+      <when expression="#[attributes.method == 'GET' and (vars.pathId == null or vars.pathId == '')]">
         <flow-ref doc:name="Get All Customers" name="get-all-customers"/>
       </when>
-      <when expression="#[attributes.method == 'GET' and attributes.uriParams.id != null]">
+      <when expression="#[attributes.method == 'GET' and vars.pathId != null and vars.pathId != '']">
+        <ee:transform doc:name="Set ID Parameter">
+          <ee:variables>
+            <ee:set-variable variableName="id"><![CDATA[#[vars.pathId]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
         <flow-ref doc:name="Get Customer By ID" name="get-customer-by-id"/>
       </when>
       <when expression="#[attributes.method == 'POST']">
         <flow-ref doc:name="Create Customer" name="create-customer"/>
       </when>
-      <when expression="#[attributes.method == 'PUT']">
+      <when expression="#[attributes.method == 'PUT' and vars.pathId != null and vars.pathId != '']">
+        <ee:transform doc:name="Set ID Parameter">
+          <ee:variables>
+            <ee:set-variable variableName="id"><![CDATA[#[vars.pathId]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
         <flow-ref doc:name="Update Customer" name="update-customer"/>
       </when>
-      <when expression="#[attributes.method == 'DELETE']">
+      <when expression="#[attributes.method == 'DELETE' and vars.pathId != null and vars.pathId != '']">
+        <ee:transform doc:name="Set ID Parameter">
+          <ee:variables>
+            <ee:set-variable variableName="id"><![CDATA[#[vars.pathId]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
         <flow-ref doc:name="Delete Customer" name="delete-customer"/>
       </when>
       <otherwise>
         <ee:transform doc:name="Method Not Allowed">
           <ee:message>
             <ee:set-payload><![CDATA[output application/json --- { "error": "Method not allowed", "message": "HTTP method not supported for this endpoint" }]]></ee:set-payload>
-            <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
           </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
+          </ee:variables>
         </ee:transform>
       </otherwise>
     </choice>
     
+    <http:response statusCode="#[vars.httpStatus default 200]">
+      <http:body><![CDATA[#[payload]]]></http:body>
+      <http:headers><![CDATA[#[output application/java --- { 'Content-Type': 'application/json' }]]]></http:headers>
+    </http:response>
+    </try>
+    
     <error-handler>
-      <on-error-propagate type="HTTP:BAD_REQUEST" enableNotifications="true" logException="true" doc:name="Bad Request Error Handler">
-        <ee:transform doc:name="Error Response">
+      <on-error-continue type="EXPRESSION" enableNotifications="false" logException="false" doc:name="Expression Error Handler">
+        <!-- Error response already set by the flow - preserve payload and httpStatus -->
+        <ee:transform doc:name="Preserve Error Response">
           <ee:message>
-            <ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": error.description default "Invalid request" }]]></ee:set-payload>
-            <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+            <ee:set-payload><![CDATA[#[payload]]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[#[vars.httpStatus default 400]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+        <ee:transform doc:name="Format JSON if Needed">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- payload]]></ee:set-payload>
           </ee:message>
         </ee:transform>
-      </on-error-propagate>
-      <on-error-propagate type="HTTP:NOT_FOUND" enableNotifications="true" logException="true" doc:name="Not Found Error Handler">
+      </on-error-continue>
+      <on-error-continue type="ANY" enableNotifications="false" logException="true" doc:name="Generic Error Handler">
         <ee:transform doc:name="Error Response">
           <ee:message>
-            <ee:set-payload><![CDATA[output application/json --- { "error": "Not Found", "message": error.description default "Resource not found" }]]></ee:set-payload>
-            <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+            <ee:set-payload><![CDATA[output application/json --- { "error": "Internal Server Error", "message": (error.description default "An unexpected error occurred") }]]></ee:set-payload>
           </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[#[vars.httpStatus default 500]]]></ee:set-variable>
+          </ee:variables>
         </ee:transform>
-      </on-error-propagate>
-      <on-error-propagate type="HTTP:UNSUPPORTED_MEDIA_TYPE" enableNotifications="true" logException="true" doc:name="Unsupported Media Type Error Handler">
-        <ee:transform doc:name="Error Response">
-          <ee:message>
-            <ee:set-payload><![CDATA[output application/json --- { "error": "Unsupported Media Type", "message": "Content-Type must be application/json" }]]></ee:set-payload>
-            <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
-          </ee:message>
-        </ee:transform>
-      </on-error-propagate>
-      <on-error-propagate type="ANY" enableNotifications="true" logException="true" doc:name="Generic Error Handler">
-        <ee:transform doc:name="Error Response">
-          <ee:message>
-            <ee:set-payload><![CDATA[output application/json --- { "error": "Internal Server Error", "message": "An unexpected error occurred" }]]></ee:set-payload>
-            <ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
-          </ee:message>
-        </ee:transform>
-      </on-error-propagate>
+      </on-error-continue>
     </error-handler>
   </flow>
 
   <!-- GET /customers - Get All Customers -->
   <flow name="get-all-customers" doc:name="get-all-customers">
-    <logger level="INFO" doc:name="Log Request" message='{"event":"get_all_customers","method":"GET","path":"/customers","timestamp":"#[now()]"}"/>
+    <logger level="INFO" doc:name="Log Request" message="#[&quot;{\&quot;event\&quot;:\&quot;get_all_customers\&quot;,\&quot;method\&quot;:\&quot;GET\&quot;,\&quot;path\&quot;:\&quot;/customers\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
     
-    <os:retrieve-all doc:name="Retrieve All Customers" objectStore="CustomerStore" keyPattern="customer:*"/>
+    <os:retrieve-all doc:name="Retrieve All Customers" objectStore="CustomerStore"/>
     
-    <ee:transform doc:name="Transform to Array">
-      <ee:message>
-        <ee:set-payload><![CDATA[output application/json
----
-if (payload is Array) 
-  then payload 
-else if (payload == null) 
-  then [] 
-else [payload]]]></ee:set-payload>
-      </ee:message>
-    </ee:transform>
+    <choice doc:name="Transform payload type">
+      <when expression="#[payload is Map and sizeOf(payload) > 0]">
+        <ee:transform doc:name="Transform Map to Array">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- (payload pluck $) filter ($ != null)]]></ee:set-payload>
+          </ee:message>
+        </ee:transform>
+      </when>
+      <when expression="#[payload is Array and sizeOf(payload) > 0]">
+        <ee:transform doc:name="Keep Array">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- (payload filter ($ != null))]]></ee:set-payload>
+          </ee:message>
+        </ee:transform>
+      </when>
+      <otherwise>
+        <ee:transform doc:name="Set Empty Array">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- []]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[200]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+      </otherwise>
+    </choice>
     
-    <logger level="INFO" doc:name="Log Response" message='{"event":"get_all_customers_response","count":#[sizeOf(payload)],"status":"success","timestamp":"#[now()]"}"/>
+    <logger level="INFO" doc:name="Log Response" message="#[&quot;{\&quot;event\&quot;:\&quot;get_all_customers_response\&quot;,\&quot;count\&quot;:&quot; ++ (if (payload is Array) then (sizeOf(payload) as String) else &quot;0&quot;) ++ &quot;,\&quot;status\&quot;:\&quot;success\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
+    
+    <error-handler>
+      <on-error-continue type="ANY" enableNotifications="false" logException="true" doc:name="Error Handler">
+        <ee:transform doc:name="Set Empty Array on Error">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- []]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[#[vars.httpStatus default 200]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+      </on-error-continue>
+    </error-handler>
   </flow>
 
   <!-- GET /customers/{id} - Get Customer By ID -->
   <flow name="get-customer-by-id" doc:name="get-customer-by-id">
-    <logger level="INFO" doc:name="Log Request" message='{"event":"get_customer_by_id","method":"GET","path":"/customers/#[attributes.uriParams.id]","customerId":"#[attributes.uriParams.id]","timestamp":"#[now()]"}"/>
+    <logger level="INFO" doc:name="Log Request" message="#[&quot;{\&quot;event\&quot;:\&quot;get_customer_by_id\&quot;,\&quot;method\&quot;:\&quot;GET\&quot;,\&quot;path\&quot;:\&quot;/customers/&quot; ++ vars.id ++ &quot;\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ vars.id ++ &quot;\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
     
-    <os:retrieve doc:name="Retrieve Customer" objectStore="CustomerStore" key="#['customer:' ++ attributes.uriParams.id]"/>
+    <os:retrieve doc:name="Retrieve Customer" objectStore="CustomerStore" key="#['customer:' ++ vars.id]"/>
     
     <choice doc:name="Customer Found?">
       <when expression="#[payload == null]">
-        <logger level="WARN" doc:name="Log Not Found" message='{"event":"get_customer_by_id_not_found","customerId":"#[attributes.uriParams.id]","timestamp":"#[now()]"}"/>
-        <raise-error type="HTTP:NOT_FOUND" description="Customer with ID #[attributes.uriParams.id] not found"/>
+        <logger level="WARN" doc:name="Log Not Found" message="#[&quot;{\&quot;event\&quot;:\&quot;get_customer_by_id_not_found\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ vars.id ++ &quot;\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
+        <ee:transform doc:name="Not Found Response">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- { "error": "Not Found", "message": "Customer with ID " ++ vars.id ++ " not found" }]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+            <ee:set-variable variableName="notFoundResponse"><![CDATA[#[payload]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+        <raise-error type="EXPRESSION" description="Customer not found"/>
       </when>
+      <otherwise>
+        <ee:transform doc:name="Format Response">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- payload]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[200]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+        <logger level="INFO" doc:name="Log Response" message="#[&quot;{\&quot;event\&quot;:\&quot;get_customer_by_id_response\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ payload.id ++ &quot;\&quot;,\&quot;status\&quot;:\&quot;success\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
+      </otherwise>
     </choice>
-    
-    <logger level="INFO" doc:name="Log Response" message='{"event":"get_customer_by_id_response","customerId":"#[payload.id]","status":"success","timestamp":"#[now()]"}"/>
   </flow>
 
   <!-- POST /customers - Create Customer -->
   <flow name="create-customer" doc:name="create-customer">
-    <logger level="INFO" doc:name="Log Request" message='{"event":"create_customer","method":"POST","path":"/customers","timestamp":"#[now()]"}"/>
-    
-    <validation:is-not-empty doc:name="Validate Content-Type" value="#[attributes.headers.'content-type' default '']" message="Content-Type header is required"/>
+    <logger level="INFO" doc:name="Log Request" message="#[&quot;{\&quot;event\&quot;:\&quot;create_customer\&quot;,\&quot;method\&quot;:\&quot;POST\&quot;,\&quot;path\&quot;:\&quot;/customers\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
     
     <choice doc:name="Check Content-Type">
-      <when expression="#[attributes.headers.'content-type' != null and !(attributes.headers.'content-type' contains 'application/json')]">
-        <raise-error type="HTTP:UNSUPPORTED_MEDIA_TYPE" description="Content-Type must be application/json"/>
+      <when expression="#[attributes.headers.'content-type' == null or attributes.headers.'content-type' == '']">
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "Content-Type header is required" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="Content-Type header is required"/>
+      </when>
+      <when expression="#[!(attributes.headers.'content-type' contains 'application/json')]">
+        <ee:transform doc:name="Unsupported Media Type Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Unsupported Media Type", "message": "Content-Type must be application/json" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="Content-Type must be application/json"/>
       </when>
     </choice>
     
-    <ee:transform doc:name="Parse Request">
+    <!-- Store request data and initialize validation error -->
+    <ee:transform doc:name="Store Request Data">
       <ee:message>
-        <ee:set-payload><![CDATA[output application/json
----
-read(payload, "application/json")]]></ee:set-payload>
-        <ee:set-variable variableName="input"><![CDATA[#[payload]]]></ee:set-variable>
+        <ee:set-payload><![CDATA[#[payload]]]></ee:set-payload>
       </ee:message>
+      <ee:variables>
+        <ee:set-variable variableName="requestData"><![CDATA[#[payload]]]></ee:set-variable>
+        <ee:set-variable variableName="validationError"><![CDATA[null]]></ee:set-variable>
+      </ee:variables>
     </ee:transform>
     
     <!-- Validate firstName -->
     <choice doc:name="Validate firstName">
-      <when expression="#[vars.input.firstName == null or vars.input.firstName == '']">
-        <raise-error type="HTTP:BAD_REQUEST" description="firstName is required"/>
+      <when expression="#[vars.requestData == null or !(vars.requestData is Map) or vars.requestData.firstName == null or vars.requestData.firstName == '']">
+        <ee:transform doc:name="Set firstName Error">
+          <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "firstName is required" }]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
       </when>
-      <when expression="#[sizeOf(vars.input.firstName) > 50]">
-        <raise-error type="HTTP:BAD_REQUEST" description="firstName must be 50 characters or less"/>
+      <when expression="#[vars.requestData.firstName is String and sizeOf(vars.requestData.firstName) > 50]">
+        <ee:transform doc:name="Set firstName Length Error">
+          <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "firstName must be 50 characters or less" }]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
       </when>
     </choice>
     
-    <!-- Validate lastName -->
+    <!-- Validate lastName if firstName is valid -->
     <choice doc:name="Validate lastName">
-      <when expression="#[vars.input.lastName == null or vars.input.lastName == '']">
-        <raise-error type="HTTP:BAD_REQUEST" description="lastName is required"/>
+      <when expression="#[vars.validationError == null and (vars.requestData.lastName == null or vars.requestData.lastName == '')]">
+        <ee:transform doc:name="Set lastName Error">
+          <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "lastName is required" }]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
       </when>
-      <when expression="#[sizeOf(vars.input.lastName) > 50]">
-        <raise-error type="HTTP:BAD_REQUEST" description="lastName must be 50 characters or less"/>
+      <when expression="#[vars.validationError == null and vars.requestData.lastName is String and sizeOf(vars.requestData.lastName) > 50]">
+        <ee:transform doc:name="Set lastName Length Error">
+          <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "lastName must be 50 characters or less" }]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
       </when>
     </choice>
     
-    <!-- Validate email -->
+    <!-- Validate email if previous validations passed -->
     <choice doc:name="Validate email">
-      <when expression="#[vars.input.email == null or vars.input.email == '']">
-        <raise-error type="HTTP:BAD_REQUEST" description="email is required"/>
+      <when expression="#[vars.validationError == null and (vars.requestData.email == null or vars.requestData.email == '')]">
+        <ee:transform doc:name="Set email Required Error">
+          <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "email is required" }]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
       </when>
-      <when expression="#[!(vars.input.email matches '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]">
-        <raise-error type="HTTP:BAD_REQUEST" description="email must be a valid email format"/>
+      <when expression="#[vars.validationError == null and vars.requestData.email is String and !(vars.requestData.email matches '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]">
+        <ee:transform doc:name="Set email Format Error">
+          <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "email must be a valid email format" }]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
       </when>
     </choice>
     
-    <!-- Validate accountStatus -->
+    <!-- Validate accountStatus if provided -->
     <choice doc:name="Validate accountStatus">
-      <when expression="#[vars.input.accountStatus != null and !(vars.input.accountStatus in ['ACTIVE', 'INACTIVE', 'SUSPENDED'])]">
-        <raise-error type="HTTP:BAD_REQUEST" description="accountStatus must be one of: ACTIVE, INACTIVE, SUSPENDED"/>
+      <when expression="#[vars.validationError == null and vars.requestData.accountStatus != null and vars.requestData.accountStatus is String and !(vars.requestData.accountStatus in ['ACTIVE', 'INACTIVE', 'SUSPENDED'])]">
+        <ee:transform doc:name="Set accountStatus Error">
+          <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "accountStatus must be one of: ACTIVE, INACTIVE, SUSPENDED" }]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
       </when>
     </choice>
     
-    <!-- Validate phone format if provided -->
+    <!-- Validate phone if provided -->
     <choice doc:name="Validate phone">
-      <when expression="#[vars.input.phone != null and vars.input.phone != '' and !(vars.input.phone matches '^\\+[1-9]\\d{1,14}$')]">
-        <raise-error type="HTTP:BAD_REQUEST" description="phone must be in E.164 format (e.g., +1234567890)"/>
+      <when expression="#[vars.validationError == null and vars.requestData.phone != null and vars.requestData.phone != '' and vars.requestData.phone is String and !(vars.requestData.phone matches '^\\+[1-9]\\d{1,14}$')]">
+        <ee:transform doc:name="Set phone Error">
+      <ee:variables>
+            <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "phone must be in E.164 format (e.g., +1234567890)" }]]></ee:set-variable>
+      </ee:variables>
+    </ee:transform>
       </when>
     </choice>
     
-    <ee:transform doc:name="Create Customer Object">
-      <ee:message>
-        <ee:set-payload><![CDATA[output application/json
+    <!-- Check for duplicate email if all validations passed -->
+    <choice doc:name="Check Duplicate Email">
+      <when expression="#[vars.validationError == null]">
+        <os:retrieve-all doc:name="Retrieve All Customers for Duplicate Check" objectStore="CustomerStore"/>
+        <choice doc:name="Convert Map to Array for Duplicate Check">
+          <when expression="#[payload is Map and sizeOf(payload) > 0]">
+            <ee:transform doc:name="Convert Map Values to Array">
+              <ee:message>
+                <ee:set-payload><![CDATA[#[(payload pluck $) filter ($ != null)]]]></ee:set-payload>
+              </ee:message>
+            </ee:transform>
+          </when>
+          <otherwise>
+            <ee:transform doc:name="Set Empty Array">
+              <ee:message>
+                <ee:set-payload><![CDATA[output application/json --- []]]></ee:set-payload>
+              </ee:message>
+            </ee:transform>
+          </otherwise>
+        </choice>
+        <ee:transform doc:name="Check for Duplicate Email">
+          <ee:variables>
+            <ee:set-variable variableName="duplicateFound"><![CDATA[#[if (payload is Array and sizeOf(payload) > 0) then (sizeOf(payload filter ($.email == vars.requestData.email)) > 0) else false]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+        <choice doc:name="Email Already Exists?">
+          <when expression="#[vars.duplicateFound]">
+            <ee:transform doc:name="Set Duplicate Email Error">
+              <ee:variables>
+                <ee:set-variable variableName="validationError"><![CDATA[{ "error": "Bad Request", "message": "Email already exists" }]]></ee:set-variable>
+              </ee:variables>
+            </ee:transform>
+          </when>
+        </choice>
+      </when>
+    </choice>
+    
+    <!-- Check if validation failed -->
+    <choice doc:name="Check Validation Result">
+      <when expression="#[vars.validationError != null]">
+        <ee:transform doc:name="Set Validation Error Response">
+          <ee:message>
+            <ee:set-payload><![CDATA[#[vars.validationError]]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+        <ee:transform doc:name="Format Validation Error as JSON">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- payload]]></ee:set-payload>
+          </ee:message>
+        </ee:transform>
+        <raise-error type="EXPRESSION" description="#[vars.validationError.message default 'Validation failed']"/>
+      </when>
+      <otherwise>
+        <!-- Restore payload from requestData for customer creation -->
+        <ee:transform doc:name="Restore Payload">
+          <ee:message>
+            <ee:set-payload><![CDATA[#[vars.requestData]]]></ee:set-payload>
+          </ee:message>
+        </ee:transform>
+        <!-- Only proceed with customer creation if validation passed -->
+        <choice doc:name="Proceed with Creation">
+          <when expression="#[true]">
+        <ee:transform doc:name="Create Customer Object">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json
 ---
 {
   "id": uuid(),
-  "firstName": vars.input.firstName,
-  "lastName": vars.input.lastName,
-  "email": vars.input.email,
-  "phone": vars.input.phone default null,
-  "accountStatus": vars.input.accountStatus default "ACTIVE",
+  "firstName": payload.firstName,
+  "lastName": payload.lastName,
+  "email": payload.email,
+  "phone": payload.phone default null,
+  "accountStatus": payload.accountStatus default "ACTIVE",
   "createdAt": now() as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"},
   "updatedAt": now() as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}
 }]]></ee:set-payload>
-      </ee:message>
-    </ee:transform>
-    
-    <os:retrieve-all doc:name="Check Email Uniqueness" objectStore="CustomerStore" keyPattern="customer:*"/>
-    
-    <ee:transform doc:name="Check Duplicate Email">
-      <ee:message>
-        <ee:set-payload><![CDATA[output application/json
----
-var allCustomers = if (payload is Array) then payload else if (payload == null) then [] else [payload];
-var newEmail = vars.input.email;
-
-if (any(allCustomers, (customer) -> customer.email == newEmail)) 
-  null
-else 
-  vars.input]]></ee:set-payload>
-        <ee:set-variable variableName="input"><![CDATA[#[payload]]]></ee:set-variable>
-      </ee:message>
-    </ee:transform>
-    
-    <choice doc:name="Email Already Exists?">
-      <when expression="#[vars.input == null]">
-        <raise-error type="HTTP:BAD_REQUEST" description="Email already exists"/>
-      </when>
+          </ee:message>
+        </ee:transform>
+        
+        <ee:transform doc:name="Store Created Customer">
+          <ee:message>
+            <ee:set-payload><![CDATA[#[payload]]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="newCustomer"><![CDATA[#[payload]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+        
+        <!-- Store customer - errors will be caught by flow error handler -->
+        <os:store doc:name="Store Customer" objectStore="CustomerStore" key="#['customer:' ++ vars.newCustomer.id]"/>
+        
+        <ee:transform doc:name="Set Created Status and Return Customer">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- vars.newCustomer]]></ee:set-payload>
+          </ee:message>
+          <ee:variables>
+            <ee:set-variable variableName="httpStatus"><![CDATA[201]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+        
+        <logger level="INFO" doc:name="Log Response" message="#[&quot;{\&quot;event\&quot;:\&quot;create_customer_response\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ payload.id ++ &quot;\&quot;,\&quot;email\&quot;:\&quot;&quot; ++ (if (payload.email != null) then ((payload.email splitBy &quot;@&quot;)[0] ++ &quot;***@&quot; ++ (payload.email splitBy &quot;@&quot;)[1]) else &quot;&quot;) ++ &quot;\&quot;,\&quot;phone\&quot;:\&quot;&quot; ++ (if (payload.phone != null and payload.phone != &quot;&quot;) then (&quot;***&quot; ++ (payload.phone[-4 to -1])) else &quot;&quot;) ++ &quot;\&quot;,\&quot;status\&quot;:\&quot;success\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
+          </when>
+        </choice>
+      </otherwise>
     </choice>
     
-    <ee:transform doc:name="Set Customer Payload">
-      <ee:message>
-        <ee:set-payload><![CDATA[#[vars.input]]]></ee:set-payload>
-      </ee:message>
-    </ee:transform>
-    
-    <os:store doc:name="Store Customer" objectStore="CustomerStore" key="#['customer:' ++ payload.id]" value="#[payload]"/>
-    
-    <ee:transform doc:name="Set Created Status">
-      <ee:message>
-        <ee:set-variable variableName="httpStatus"><![CDATA[201]]></ee:set-variable>
-      </ee:message>
-    </ee:transform>
-    
-    <ee:transform doc:name="Mask Sensitive Data for Logging">
-      <ee:message>
-        <ee:set-variable variableName="maskedEmail"><![CDATA[output application/json
----
-if (payload.email != null) 
-  then (payload.email splitBy "@")[0] ++ "***@" ++ (payload.email splitBy "@")[1]
-else null]]></ee:set-variable>
-        <ee:set-variable variableName="maskedPhone"><![CDATA[output application/json
----
-if (payload.phone != null and payload.phone != "") 
-  then "***" ++ (payload.phone[-4 to -1])
-else null]]></ee:set-variable>
-      </ee:message>
-    </ee:transform>
-    
-    <logger level="INFO" doc:name="Log Response" message='{"event":"create_customer_response","customerId":"#[payload.id]","email":"#[vars.maskedEmail]","phone":"#[vars.maskedPhone]","status":"success","timestamp":"#[now()]"}"/>
+    <error-handler>
+      <on-error-continue type="EXPRESSION" enableNotifications="false" logException="false" doc:name="Catch Validation Errors">
+        <!-- Validation error - preserve the payload that was set before raise-error -->
+        <choice doc:name="Check if payload is already set">
+          <when expression="#[payload != null and payload is Map]">
+            <ee:transform doc:name="Preserve Validation Error">
+              <ee:message>
+                <ee:set-payload><![CDATA[output application/json --- payload]]></ee:set-payload>
+              </ee:message>
+              <ee:variables>
+                <ee:set-variable variableName="httpStatus"><![CDATA[#[vars.httpStatus default 400]]]></ee:set-variable>
+              </ee:variables>
+            </ee:transform>
+          </when>
+          <otherwise>
+            <ee:transform doc:name="Use validationError variable">
+              <ee:message>
+                <ee:set-payload><![CDATA[output application/json --- vars.validationError default { "error": "Bad Request", "message": "Validation failed" }]]></ee:set-payload>
+              </ee:message>
+              <ee:variables>
+                <ee:set-variable variableName="httpStatus"><![CDATA[#[vars.httpStatus default 400]]]></ee:set-variable>
+              </ee:variables>
+            </ee:transform>
+          </otherwise>
+        </choice>
+      </on-error-continue>
+      <on-error-continue type="ANY" enableNotifications="false" logException="false" doc:name="Catch All Other Errors">
+        <!-- Check if this is an object store AlertingSupport error and handle gracefully -->
+        <choice doc:name="Check Error Type">
+          <when expression="#[error.description != null and (error.description contains 'AlertingSupport' or error.description contains 'triggerAlert' or error.description contains 'Cannot invoke')]">
+            <!-- Object store alert error - continue anyway (storage may have succeeded) -->
+            <ee:transform doc:name="Restore Customer on OS Error">
+              <ee:message>
+                <ee:set-payload><![CDATA[#[vars.newCustomer default payload]]]></ee:set-payload>
+              </ee:message>
+            </ee:transform>
+            <ee:transform doc:name="Format as JSON and Set Status">
+              <ee:message>
+                <ee:set-payload><![CDATA[output application/json --- payload]]></ee:set-payload>
+              </ee:message>
+              <ee:variables>
+                <ee:set-variable variableName="httpStatus"><![CDATA[#[if (vars.newCustomer != null) then (vars.httpStatus default 201) else (vars.httpStatus default 200)]]]></ee:set-variable>
+              </ee:variables>
+            </ee:transform>
+          </when>
+          <otherwise>
+            <!-- Other errors - preserve existing status or set 500 -->
+            <ee:transform doc:name="Set Error Response">
+              <ee:message>
+                <ee:set-payload><![CDATA[output application/json --- { "error": "Internal Server Error", "message": (error.description default "An unexpected error occurred") }]]></ee:set-payload>
+              </ee:message>
+              <ee:variables>
+                <ee:set-variable variableName="httpStatus"><![CDATA[#[vars.httpStatus default 500]]]></ee:set-variable>
+              </ee:variables>
+            </ee:transform>
+          </otherwise>
+        </choice>
+      </on-error-continue>
+    </error-handler>
   </flow>
 
   <!-- PUT /customers/{id} - Update Customer -->
   <flow name="update-customer" doc:name="update-customer">
-    <logger level="INFO" doc:name="Log Request" message='{"event":"update_customer","method":"PUT","path":"/customers/#[attributes.uriParams.id]","customerId":"#[attributes.uriParams.id]","timestamp":"#[now()]"}"/>
-    
-    <validation:is-not-empty doc:name="Validate Content-Type" value="#[attributes.headers.'content-type' default '']" message="Content-Type header is required"/>
+    <logger level="INFO" doc:name="Log Request" message="#[&quot;{\&quot;event\&quot;:\&quot;update_customer\&quot;,\&quot;method\&quot;:\&quot;PUT\&quot;,\&quot;path\&quot;:\&quot;/customers/&quot; ++ vars.id ++ &quot;\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ vars.id ++ &quot;\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
     
     <choice doc:name="Check Content-Type">
-      <when expression="#[attributes.headers.'content-type' != null and !(attributes.headers.'content-type' contains 'application/json')]">
-        <raise-error type="HTTP:UNSUPPORTED_MEDIA_TYPE" description="Content-Type must be application/json"/>
+      <when expression="#[attributes.headers.'content-type' == null or attributes.headers.'content-type' == '']">
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "Content-Type header is required" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="Content-Type header is required"/>
+      </when>
+      <when expression="#[!(attributes.headers.'content-type' contains 'application/json')]">
+        <ee:transform doc:name="Unsupported Media Type Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Unsupported Media Type", "message": "Content-Type must be application/json" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="Content-Type must be application/json"/>
       </when>
     </choice>
     
-    <os:retrieve doc:name="Retrieve Existing Customer" objectStore="CustomerStore" key="#['customer:' ++ attributes.uriParams.id]"/>
+    <os:retrieve doc:name="Retrieve Existing Customer" objectStore="CustomerStore" key="#['customer:' ++ vars.id]"/>
     
     <choice doc:name="Customer Exists?">
       <when expression="#[payload == null]">
-        <raise-error type="HTTP:NOT_FOUND" description="Customer with ID #[attributes.uriParams.id] not found"/>
+        <ee:transform doc:name="Not Found Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Not Found", "message": "Customer with ID " ++ vars.id ++ " not found" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="Customer with ID #[vars.id] not found"/>
       </when>
     </choice>
     
     <ee:transform doc:name="Store Existing Customer">
       <ee:message>
-        <ee:set-variable variableName="existingCustomer"><![CDATA[#[payload]]]></ee:set-variable>
+        <ee:set-payload><![CDATA[#[payload]]]></ee:set-payload>
       </ee:message>
+      <ee:variables>
+        <ee:set-variable variableName="existingCustomer"><![CDATA[#[payload]]]></ee:set-variable>
+      </ee:variables>
     </ee:transform>
     
-    <ee:transform doc:name="Parse Update Request">
+    <ee:transform doc:name="Store Update Request">
       <ee:message>
-        <ee:set-payload><![CDATA[output application/json
----
-read(payload, "application/json")]]></ee:set-payload>
-        <ee:set-variable variableName="updateInput"><![CDATA[#[payload]]]></ee:set-variable>
+        <ee:set-payload><![CDATA[#[payload]]]></ee:set-payload>
       </ee:message>
+      <ee:variables>
+        <ee:set-variable variableName="updateInput"><![CDATA[#[payload]]]></ee:set-variable>
+      </ee:variables>
     </ee:transform>
     
     <!-- Validate firstName if provided -->
     <choice doc:name="Validate firstName">
       <when expression="#[vars.updateInput.firstName != null and vars.updateInput.firstName == '']">
-        <raise-error type="HTTP:BAD_REQUEST" description="firstName cannot be empty"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "firstName cannot be empty" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="firstName cannot be empty"/>
       </when>
       <when expression="#[vars.updateInput.firstName != null and sizeOf(vars.updateInput.firstName) > 50]">
-        <raise-error type="HTTP:BAD_REQUEST" description="firstName must be 50 characters or less"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "firstName must be 50 characters or less" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="firstName must be 50 characters or less"/>
       </when>
     </choice>
     
     <!-- Validate lastName if provided -->
     <choice doc:name="Validate lastName">
       <when expression="#[vars.updateInput.lastName != null and vars.updateInput.lastName == '']">
-        <raise-error type="HTTP:BAD_REQUEST" description="lastName cannot be empty"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "lastName cannot be empty" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="lastName cannot be empty"/>
       </when>
       <when expression="#[vars.updateInput.lastName != null and sizeOf(vars.updateInput.lastName) > 50]">
-        <raise-error type="HTTP:BAD_REQUEST" description="lastName must be 50 characters or less"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "lastName must be 50 characters or less" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="lastName must be 50 characters or less"/>
       </when>
     </choice>
     
     <!-- Validate email if provided -->
     <choice doc:name="Validate email">
       <when expression="#[vars.updateInput.email != null and vars.updateInput.email == '']">
-        <raise-error type="HTTP:BAD_REQUEST" description="email cannot be empty"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "email cannot be empty" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="email cannot be empty"/>
       </when>
       <when expression="#[vars.updateInput.email != null and !(vars.updateInput.email matches '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]">
-        <raise-error type="HTTP:BAD_REQUEST" description="email must be a valid email format"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "email must be a valid email format" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="email must be a valid email format"/>
       </when>
     </choice>
     
     <!-- Validate accountStatus if provided -->
     <choice doc:name="Validate accountStatus">
       <when expression="#[vars.updateInput.accountStatus != null and !(vars.updateInput.accountStatus in ['ACTIVE', 'INACTIVE', 'SUSPENDED'])]">
-        <raise-error type="HTTP:BAD_REQUEST" description="accountStatus must be one of: ACTIVE, INACTIVE, SUSPENDED"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "accountStatus must be one of: ACTIVE, INACTIVE, SUSPENDED" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="accountStatus must be one of: ACTIVE, INACTIVE, SUSPENDED"/>
       </when>
     </choice>
     
     <!-- Validate phone format if provided -->
     <choice doc:name="Validate phone">
       <when expression="#[vars.updateInput.phone != null and vars.updateInput.phone != '' and !(vars.updateInput.phone matches '^\\+[1-9]\\d{1,14}$')]">
-        <raise-error type="HTTP:BAD_REQUEST" description="phone must be in E.164 format (e.g., +1234567890)"/>
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "phone must be in E.164 format (e.g., +1234567890)" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="phone must be in E.164 format (e.g., +1234567890)"/>
       </when>
     </choice>
     
@@ -357,73 +560,94 @@ read(payload, "application/json")]]></ee:set-payload>
   "createdAt": vars.existingCustomer.createdAt,
   "updatedAt": now() as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}
 }]]></ee:set-payload>
-        <ee:set-variable variableName="updatedCustomer"><![CDATA[#[payload]]]></ee:set-variable>
       </ee:message>
+      <ee:variables>
+        <ee:set-variable variableName="updatedCustomer"><![CDATA[#[payload]]]></ee:set-variable>
+      </ee:variables>
     </ee:transform>
     
-    <os:retrieve-all doc:name="Check Email Uniqueness" objectStore="CustomerStore" keyPattern="customer:*"/>
+    <os:retrieve-all doc:name="Check Email Uniqueness" objectStore="CustomerStore"/>
     
-    <ee:transform doc:name="Check Duplicate Email">
+    <choice doc:name="Convert Map to Array">
+      <when expression="#[payload is Map and sizeOf(payload) > 0]">
+        <ee:transform doc:name="Convert Map Values to Array">
+          <ee:message>
+            <ee:set-payload><![CDATA[#[(payload pluck $) filter ($ != null)]]]></ee:set-payload>
+          </ee:message>
+        </ee:transform>
+      </when>
+      <otherwise>
+        <ee:transform doc:name="Set Empty Array">
+          <ee:message>
+            <ee:set-payload><![CDATA[output application/json --- []]]></ee:set-payload>
+          </ee:message>
+        </ee:transform>
+      </otherwise>
+    </choice>
+    
+    <choice doc:name="Set Customer List">
+      <when expression="#[payload is Array]">
+        <ee:transform doc:name="Set Array to Variable">
+          <ee:variables>
+            <ee:set-variable variableName="customerList"><![CDATA[#[payload]]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+      </when>
+      <otherwise>
+        <ee:transform doc:name="Set Empty Array Variable">
+          <ee:variables>
+            <ee:set-variable variableName="customerList"><![CDATA[output application/java --- []]]></ee:set-variable>
+          </ee:variables>
+        </ee:transform>
+      </otherwise>
+    </choice>
+    
+    <ee:transform doc:name="Restore Updated Customer and Check Duplicate">
       <ee:message>
-        <ee:set-payload><![CDATA[output application/json
----
-var allCustomers = if (payload is Array) then payload else if (payload == null) then [] else [payload];
-var updatedEmail = vars.updatedCustomer.email;
-var customerId = vars.updatedCustomer.id;
-
-if (any(allCustomers, (customer) -> customer.email == updatedEmail and customer.id != customerId)) 
-  null
-else 
-  vars.updatedCustomer]]></ee:set-payload>
+        <ee:set-payload><![CDATA[#[vars.updatedCustomer]]]></ee:set-payload>
       </ee:message>
+      <ee:variables>
+        <ee:set-variable variableName="duplicateFound"><![CDATA[#[if (vars.customerList != null and sizeOf(vars.customerList) > 0) then (sizeOf(vars.customerList filter ($.email == vars.updatedCustomer.email and $.id != vars.updatedCustomer.id)) > 0) else false]]]></ee:set-variable>
+      </ee:variables>
     </ee:transform>
     
     <choice doc:name="Email Already Exists?">
-      <when expression="#[payload == null]">
-        <raise-error type="HTTP:BAD_REQUEST" description="Email already exists"/>
+      <when expression="#[vars.duplicateFound]">
+        <ee:transform doc:name="Bad Request Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Bad Request", "message": "Email already exists" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="Email already exists"/>
       </when>
     </choice>
     
     <ee:transform doc:name="Set Updated Customer Payload">
       <ee:message>
+        <ee:set-payload><![CDATA[output application/json --- vars.updatedCustomer]]></ee:set-payload>
+      </ee:message>
+    </ee:transform>
+    
+    <os:store doc:name="Update Customer" objectStore="CustomerStore" key="#['customer:' ++ vars.updatedCustomer.id]"/>
+    
+    <ee:transform doc:name="Mask Sensitive Data for Logging">
+      <ee:message>
         <ee:set-payload><![CDATA[#[payload]]]></ee:set-payload>
       </ee:message>
     </ee:transform>
     
-    <os:store doc:name="Update Customer" objectStore="CustomerStore" key="#['customer:' ++ payload.id]" value="#[payload]"/>
-    
-    <ee:transform doc:name="Mask Sensitive Data for Logging">
-      <ee:message>
-        <ee:set-variable variableName="maskedEmail"><![CDATA[output application/json
----
-if (payload.email != null) 
-  then (payload.email splitBy "@")[0] ++ "***@" ++ (payload.email splitBy "@")[1]
-else null]]></ee:set-variable>
-        <ee:set-variable variableName="maskedPhone"><![CDATA[output application/json
----
-if (payload.phone != null and payload.phone != "") 
-  then "***" ++ (payload.phone[-4 to -1])
-else null]]></ee:set-variable>
-      </ee:message>
-    </ee:transform>
-    
-    <logger level="INFO" doc:name="Log Response" message='{"event":"update_customer_response","customerId":"#[payload.id]","email":"#[vars.maskedEmail]","phone":"#[vars.maskedPhone]","status":"success","timestamp":"#[now()]"}"/>
+    <logger level="INFO" doc:name="Log Response" message="#[&quot;{\&quot;event\&quot;:\&quot;update_customer_response\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ payload.id ++ &quot;\&quot;,\&quot;email\&quot;:\&quot;&quot; ++ (if (payload.email != null) then ((payload.email splitBy &quot;@&quot;)[0] ++ &quot;***@&quot; ++ (payload.email splitBy &quot;@&quot;)[1]) else &quot;&quot;) ++ &quot;\&quot;,\&quot;phone\&quot;:\&quot;&quot; ++ (if (payload.phone != null and payload.phone != &quot;&quot;) then (&quot;***&quot; ++ (payload.phone[-4 to -1])) else &quot;&quot;) ++ &quot;\&quot;,\&quot;status\&quot;:\&quot;success\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
   </flow>
 
   <!-- DELETE /customers/{id} - Delete Customer -->
   <flow name="delete-customer" doc:name="delete-customer">
-    <logger level="INFO" doc:name="Log Request" message='{"event":"delete_customer","method":"DELETE","path":"/customers/#[attributes.uriParams.id]","customerId":"#[attributes.uriParams.id]","timestamp":"#[now()]"}"/>
+    <logger level="INFO" doc:name="Log Request" message="#[&quot;{\&quot;event\&quot;:\&quot;delete_customer\&quot;,\&quot;method\&quot;:\&quot;DELETE\&quot;,\&quot;path\&quot;:\&quot;/customers/&quot; ++ vars.id ++ &quot;\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ vars.id ++ &quot;\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
     
-    <os:retrieve doc:name="Retrieve Customer" objectStore="CustomerStore" key="#['customer:' ++ attributes.uriParams.id]"/>
+    <os:retrieve doc:name="Retrieve Customer" objectStore="CustomerStore" key="#['customer:' ++ vars.id]"/>
     
     <choice doc:name="Customer Exists?">
       <when expression="#[payload == null]">
-        <logger level="WARN" doc:name="Log Not Found" message='{"event":"delete_customer_not_found","customerId":"#[attributes.uriParams.id]","timestamp":"#[now()]"}"/>
-        <raise-error type="HTTP:NOT_FOUND" description="Customer with ID #[attributes.uriParams.id] not found"/>
+        <logger level="WARN" doc:name="Log Not Found" message="#[&quot;{\&quot;event\&quot;:\&quot;delete_customer_not_found\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ vars.id ++ &quot;\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
+        <ee:transform doc:name="Not Found Response"><ee:message><ee:set-payload><![CDATA[output application/json --- { "error": "Not Found", "message": "Customer with ID " ++ vars.id ++ " not found" }]]></ee:set-payload></ee:message><ee:variables><ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable></ee:variables></ee:transform><raise-error type="EXPRESSION" description="Customer with ID #[vars.id] not found"/>
       </when>
     </choice>
     
-    <os:remove doc:name="Delete Customer" objectStore="CustomerStore" key="#['customer:' ++ attributes.uriParams.id]"/>
+    <os:remove doc:name="Delete Customer" objectStore="CustomerStore" key="#['customer:' ++ vars.id]"/>
     
     <ee:transform doc:name="Success Response">
       <ee:message>
@@ -431,7 +655,7 @@ else null]]></ee:set-variable>
       </ee:message>
     </ee:transform>
     
-    <logger level="INFO" doc:name="Log Response" message='{"event":"delete_customer_response","customerId":"#[attributes.uriParams.id]","status":"success","timestamp":"#[now()]"}"/>
+    <logger level="INFO" doc:name="Log Response" message="#[&quot;{\&quot;event\&quot;:\&quot;delete_customer_response\&quot;,\&quot;customerId\&quot;:\&quot;&quot; ++ vars.id ++ &quot;\&quot;,\&quot;status\&quot;:\&quot;success\&quot;,\&quot;timestamp\&quot;:\&quot;&quot; ++ now() as String ++ &quot;\&quot;}&quot;]"/>
   </flow>
 
   <!-- Health Check Endpoint -->
@@ -444,4 +668,4 @@ else null]]></ee:set-variable>
     </ee:transform>
   </flow>
 
-</mule> 
+</mule>

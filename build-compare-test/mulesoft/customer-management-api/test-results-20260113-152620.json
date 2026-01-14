@@ -1,0 +1,41 @@
+{
+  "test_suite": "customer-api-prd-test-suite",
+  "timestamp": "2026-01-13T20:26:20.000Z",
+  "total_tests": 16,
+  "passed": 0,
+  "failed": 16,
+  "pass_rate": "0%",
+  "tests": [
+    {"name":"health-check","status":"FAIL","message":"Health endpoint failed","response_code":"000","response":""}
+,
+    {"name":"get-all-customers-empty","status":"FAIL","message":"Expected empty array","response_code":"000","response":""}
+,
+    {"name":"create-customer-valid","status":"FAIL","message":"Failed to create customer","response_code":"000","response":""}
+,
+    {"name":"create-customer-missing-firstname","status":"FAIL","message":"Should reject missing firstName","response_code":"000","response":""}
+,
+    {"name":"create-customer-invalid-email","status":"FAIL","message":"Should reject invalid email","response_code":"000","response":""}
+,
+    {"name":"create-customer-invalid-phone","status":"FAIL","message":"Should reject invalid phone format","response_code":"000","response":""}
+,
+    {"name":"create-customer-invalid-status","status":"FAIL","message":"Should reject invalid accountStatus","response_code":"000","response":""}
+,
+    {"name":"create-customer-duplicate-email","status":"FAIL","message":"Should reject duplicate email","response_code":"000","response":""}
+,
+    {"name":"create-customer-missing-content-type","status":"FAIL","message":"Should reject missing Content-Type","response_code":"000","response":""}
+,
+    {"name":"get-customer-by-id-existing","status":"SKIP","message":"No customer ID available","response_code":"N/A","response":"N/A"}
+,
+    {"name":"get-customer-by-id-not-found","status":"FAIL","message":"Should return 404 for non-existing customer","response_code":"000","response":""}
+,
+    {"name":"update-customer-valid","status":"SKIP","message":"No customer ID available","response_code":"N/A","response":"N/A"}
+,
+    {"name":"update-customer-not-found","status":"FAIL","message":"Should return 404 for non-existing customer","response_code":"000","response":""}
+,
+    {"name":"delete-customer-existing","status":"SKIP","message":"No customer ID available","response_code":"N/A","response":"N/A"}
+,
+    {"name":"delete-customer-not-found","status":"FAIL","message":"Should return 404 for non-existing customer","response_code":"000","response":""}
+,
+    {"name":"get-all-customers-with-data","status":"FAIL","message":"Failed to retrieve customers","response_code":"000","response":""}
+  ]
+}
