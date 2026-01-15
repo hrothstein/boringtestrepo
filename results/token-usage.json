@@ -1,0 +1,8 @@
+{
+  "framework": "MuleSoft",
+  "session_timestamp": "2026-01-15T11:18:00-05:00",
+  "input_tokens": "TO_BE_POPULATED_FROM_SESSION_STATS",
+  "output_tokens": "TO_BE_POPULATED_FROM_SESSION_STATS",
+  "total_tokens": "TO_BE_POPULATED_FROM_SESSION_STATS",
+  "note": "Populate these values from Claude Code session stats at end of session"
+}
