@@ -1,0 +1,82 @@
+{
+  "app_running": true,
+  "base_url": "http://localhost:8080",
+  "tests": [
+    {
+      "endpoint": "GET /actuator/health",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "{\"status\":\"UP\",\"components\":{\"diskSpace\":{\"status\":\"UP\"},\"ping\":{\"status\":\"UP\"}}}"
+    },
+    {
+      "endpoint": "GET /customers",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "[{\"id\":\"00000000-0000-0000-0000-000000000123\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"email\":\"john.doe@example.com\",\"phone\":\"+12025551234\",\"accountStatus\":\"ACTIVE\"},{\"id\":\"00000000-0000-0000-0000-000000000456\",\"firstName\":\"Jane\",\"lastName\":\"Smith\",\"email\":\"jane.smith@example.com\",\"phone\":\"+12025555678\",\"accountStatus\":\"ACTIVE\"}]"
+    },
+    {
+      "endpoint": "GET /customers/123",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "{\"id\":\"00000000-0000-0000-0000-000000000123\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"email\":\"john.doe@example.com\",\"phone\":\"+12025551234\",\"accountStatus\":\"ACTIVE\"}"
+    },
+    {
+      "endpoint": "GET /customers/bad-id",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": ""
+    },
+    {
+      "endpoint": "POST /customers (valid)",
+      "expected_status": 201,
+      "actual_status": 201,
+      "status_correct": true,
+      "actual_response": "{\"id\":\"<uuid>\",\"firstName\":\"Test\",\"lastName\":\"User\",\"email\":\"test@example.com\",\"accountStatus\":\"ACTIVE\"}"
+    },
+    {
+      "endpoint": "POST /customers (invalid)",
+      "expected_status": 400,
+      "actual_status": 400,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Bad Request\",\"message\":\"firstName: firstName must be between 1 and 50 characters, email: email must be a valid format, firstName: firstName is required\"}"
+    },
+    {
+      "endpoint": "PUT /customers/123",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "{\"id\":\"00000000-0000-0000-0000-000000000123\",\"firstName\":\"Updated\",\"lastName\":\"User\",\"email\":\"updated@example.com\",\"accountStatus\":\"ACTIVE\"}"
+    },
+    {
+      "endpoint": "PUT /customers/bad-id",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": ""
+    },
+    {
+      "endpoint": "DELETE /customers/123",
+      "expected_status": 204,
+      "actual_status": 204,
+      "status_correct": true,
+      "actual_response": ""
+    },
+    {
+      "endpoint": "DELETE /customers/bad-id",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": ""
+    }
+  ],
+  "summary": {
+    "total_tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "pass_rate": "100%"
+  }
+}

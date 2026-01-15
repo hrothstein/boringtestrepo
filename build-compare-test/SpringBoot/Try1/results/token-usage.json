@@ -1,0 +1,10 @@
+{
+  "framework": "SpringBoot",
+  "session_timestamp": "2026-01-15T16:44:00Z",
+  "input_tokens": 60,
+  "output_tokens": 6425,
+  "cache_creation_input_tokens": 82690,
+  "cache_read_input_tokens": 1968750,
+  "total_input_tokens": 2051500,
+  "total_tokens": 2057925
+}

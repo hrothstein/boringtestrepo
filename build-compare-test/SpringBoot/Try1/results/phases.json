@@ -1,0 +1,34 @@
+{
+  "framework": "SpringBoot",
+  "start_time": "2026-01-15T16:41:00Z",
+  "end_time": "2026-01-15T16:43:32Z",
+  "checkpoints": {
+    "build": {
+      "passed": true,
+      "timestamp": "2026-01-15T16:41:39Z"
+    },
+    "tests": {
+      "passed": true,
+      "total": 10,
+      "passed_count": 10,
+      "failed_count": 0
+    },
+    "deploy": {
+      "passed": true,
+      "timestamp": "2026-01-15T16:42:48Z"
+    },
+    "health_check": {
+      "passed": true,
+      "status_code": 200
+    },
+    "status_codes_correct": {
+      "passed": true
+    },
+    "all_endpoints": {
+      "passed": true,
+      "verified_count": 10
+    }
+  },
+  "debug_iterations": 0,
+  "errors_encountered": []
+}
