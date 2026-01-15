@@ -1,0 +1,102 @@
+{
+  "app_running": true,
+  "base_url": "http://localhost:8081",
+  "test_timestamp": "2026-01-14T19:43:00-05:00",
+  "test_approach": "Mock data with <http:response> inside <http:listener>",
+  "status_code_pattern": "<http:response statusCode=\"#[vars.httpStatus default 200]\" /> inside <http:listener>",
+  "tests": [
+    {
+      "endpoint": "GET /health",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "{\"status\":\"UP\"}",
+      "note": "✅ CORRECT - Static statusCode=\"200\""
+    },
+    {
+      "endpoint": "GET /customers",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "Array of 2 mock customers",
+      "note": "✅ CORRECT - Static statusCode=\"200\""
+    },
+    {
+      "endpoint": "GET /customers/123",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "Mock customer object",
+      "note": "✅ CORRECT - Variable statusCode via vars.httpStatus=200"
+    },
+    {
+      "endpoint": "GET /customers/999",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Not Found\",\"message\":\"Customer with ID 999 not found\"}",
+      "note": "✅ CORRECT - Variable statusCode via vars.httpStatus=404"
+    },
+    {
+      "endpoint": "POST /customers",
+      "expected_status": 201,
+      "actual_status": 201,
+      "status_correct": true,
+      "request_body": "{\"firstName\":\"Test\",\"lastName\":\"User\",\"email\":\"test@example.com\",\"accountStatus\":\"ACTIVE\"}",
+      "actual_response": "Customer object with generated UUID",
+      "note": "✅ CORRECT - Static statusCode=\"201\""
+    },
+    {
+      "endpoint": "PUT /customers/123",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "Updated customer object",
+      "note": "✅ CORRECT - Variable statusCode via vars.httpStatus=200"
+    },
+    {
+      "endpoint": "PUT /customers/999",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Not Found\",\"message\":\"Customer with ID 999 not found\"}",
+      "note": "✅ CORRECT - Variable statusCode via vars.httpStatus=404"
+    },
+    {
+      "endpoint": "DELETE /customers/123",
+      "expected_status": 204,
+      "actual_status": 204,
+      "status_correct": true,
+      "actual_response": "null (empty body)",
+      "note": "✅ CORRECT - Variable statusCode via vars.httpStatus=204"
+    },
+    {
+      "endpoint": "DELETE /customers/999",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Not Found\",\"message\":\"Customer with ID 999 not found\"}",
+      "note": "✅ CORRECT - Variable statusCode via vars.httpStatus=404"
+    }
+  ],
+  "summary": {
+    "total_tests": 9,
+    "passed": 9,
+    "failed": 0,
+    "pass_rate": "100%"
+  },
+  "critical_finding": "✅ ALL STATUS CODES WORK CORRECTLY! The <http:response> pattern inside <http:listener> with variable expressions DOES work. The key is setting the variable BEFORE the listener evaluates it (in a transform before the choice, or in each choice branch).",
+  "working_pattern": {
+    "static_status_codes": "<http:response statusCode=\"200\" /> inside <http:listener>",
+    "conditional_status_codes": "<http:response statusCode=\"#[vars.httpStatus default 200]\" /> inside <http:listener>, then set vars.httpStatus in transforms within choice branches",
+    "key_insight": "Variable is evaluated at runtime when the response is sent, not at listener initialization"
+  },
+  "implementation_status": {
+    "code_complete": true,
+    "build_successful": true,
+    "deployment_successful": true,
+    "mock_data_implemented": true,
+    "object_store_removed": true,
+    "status_code_implementation": "✅ COMPLETE - All status codes working correctly"
+  }
+}

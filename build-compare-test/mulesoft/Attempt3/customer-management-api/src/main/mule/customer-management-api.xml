@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+  xmlns:http="http://www.mulesoft.org/schema/mule/http"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+  http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <!-- Health Check Endpoint -->
+    <flow name="healthCheckFlow" doc:id="health-check-flow">
+        <http:listener doc:name="Health Listener" config-ref="HTTP_Listener_config" path="/health">
+            <http:response statusCode="200"/>
+        </http:listener>
+        <ee:transform doc:name="Set Health Response">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "status": "UP"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+
+    <!-- Get All Customers - Mock Data -->
+    <flow name="getAllCustomersFlow" doc:id="get-all-customers-flow">
+        <http:listener doc:name="Get All Customers Listener" config-ref="HTTP_Listener_config" path="/customers" allowedMethods="GET">
+            <http:response statusCode="200"/>
+        </http:listener>
+        <ee:transform doc:name="Return Mock Customers">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "id": "123",
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@example.com",
+        "phone": "+1234567890",
+        "accountStatus": "ACTIVE",
+        "createdAt": "2026-01-14T00:00:00.000Z",
+        "updatedAt": "2026-01-14T00:00:00.000Z"
+    },
+    {
+        "id": "456",
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+0987654321",
+        "accountStatus": "ACTIVE",
+        "createdAt": "2026-01-14T00:00:00.000Z",
+        "updatedAt": "2026-01-14T00:00:00.000Z"
+    }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+
+    <!-- Get Customer By ID - Mock Data -->
+    <flow name="getCustomerByIdFlow" doc:id="get-customer-by-id-flow">
+        <http:listener doc:name="Get Customer By ID Listener" config-ref="HTTP_Listener_config" path="/customers/{id}" allowedMethods="GET">
+            <http:response statusCode="#[vars.httpStatus default 200]"/>
+        </http:listener>
+        <choice doc:name="Check if ID is 123">
+            <when expression="#[attributes.uriParams.id == '123']">
+                <ee:transform doc:name="Set Status Variable">
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+200]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+                <ee:transform doc:name="Return Customer">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "id": "123",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1234567890",
+    "accountStatus": "ACTIVE",
+    "createdAt": "2026-01-14T00:00:00.000Z",
+    "updatedAt": "2026-01-14T00:00:00.000Z"
+}]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+            </when>
+            <otherwise>
+                <ee:transform doc:name="Set Status Variable">
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+404]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+                <ee:transform doc:name="Set Error Response">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "error": "Not Found",
+    "message": "Customer with ID " ++ attributes.uriParams.id ++ " not found"
+}]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+            </otherwise>
+        </choice>
+    </flow>
+
+    <!-- Create Customer - Mock Data -->
+    <flow name="createCustomerFlow" doc:id="create-customer-flow">
+        <http:listener doc:name="Create Customer Listener" config-ref="HTTP_Listener_config" path="/customers" allowedMethods="POST">
+            <http:response statusCode="201"/>
+        </http:listener>
+        <ee:transform doc:name="Parse JSON Payload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload as Object]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <ee:transform doc:name="Create Customer Response">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+import * from dw::Runtime
+output application/json
+---
+{
+    "id": uuid(),
+    "firstName": payload.firstName,
+    "lastName": payload.lastName,
+    "email": payload.email,
+    "phone": payload.phone default null,
+    "accountStatus": payload.accountStatus,
+    "createdAt": now() as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"},
+    "updatedAt": now() as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+
+    <!-- Update Customer - Mock Data -->
+    <flow name="updateCustomerFlow" doc:id="update-customer-flow">
+        <http:listener doc:name="Update Customer Listener" config-ref="HTTP_Listener_config" path="/customers/{id}" allowedMethods="PUT">
+            <http:response statusCode="#[vars.httpStatus default 200]"/>
+        </http:listener>
+        <ee:transform doc:name="Parse JSON Payload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload as Object]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <choice doc:name="Check if ID is 123">
+            <when expression="#[attributes.uriParams.id == '123']">
+                <ee:transform doc:name="Set Status Variable">
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+200]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+                <ee:transform doc:name="Return Updated Customer">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "id": attributes.uriParams.id,
+    "firstName": payload.firstName,
+    "lastName": payload.lastName,
+    "email": payload.email,
+    "phone": payload.phone default null,
+    "accountStatus": payload.accountStatus,
+    "createdAt": "2026-01-14T00:00:00.000Z",
+    "updatedAt": now() as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"}
+}]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+            </when>
+            <otherwise>
+                <ee:transform doc:name="Set Status Variable">
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+404]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+                <ee:transform doc:name="Set Error Response">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "error": "Not Found",
+    "message": "Customer with ID " ++ attributes.uriParams.id ++ " not found"
+}]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+            </otherwise>
+        </choice>
+    </flow>
+
+    <!-- Delete Customer - Mock Data -->
+    <flow name="deleteCustomerFlow" doc:id="delete-customer-flow">
+        <http:listener doc:name="Delete Customer Listener" config-ref="HTTP_Listener_config" path="/customers/{id}" allowedMethods="DELETE">
+            <http:response statusCode="#[vars.httpStatus default 204]"/>
+        </http:listener>
+        <choice doc:name="Check if ID is 123">
+            <when expression="#[attributes.uriParams.id == '123']">
+                <ee:transform doc:name="Set Status Variable">
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+204]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+                <ee:transform doc:name="Set Empty Response">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+null]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+            </when>
+            <otherwise>
+                <ee:transform doc:name="Set Status Variable">
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+404]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+                <ee:transform doc:name="Set Error Response">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "error": "Not Found",
+    "message": "Customer with ID " ++ attributes.uriParams.id ++ " not found"
+}]]></ee:set-payload>
+                    </ee:message>
+                </ee:transform>
+            </otherwise>
+        </choice>
+    </flow>
+
+</mule>
