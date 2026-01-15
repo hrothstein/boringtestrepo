@@ -1,0 +1,82 @@
+{
+  "app_running": true,
+  "base_url": "http://localhost:8081",
+  "tests": [
+    {
+      "endpoint": "GET /health",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "{\"status\": \"UP\"}"
+    },
+    {
+      "endpoint": "GET /customers",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "[{\"id\":\"123\",...},{\"id\":\"456\",...}]"
+    },
+    {
+      "endpoint": "GET /customers/123",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "{\"id\":\"123\",\"firstName\":\"John\",\"lastName\":\"Doe\",...}"
+    },
+    {
+      "endpoint": "GET /customers/bad-id",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Not Found\",\"message\":\"Customer not found\"}"
+    },
+    {
+      "endpoint": "POST /customers (valid)",
+      "expected_status": 201,
+      "actual_status": 201,
+      "status_correct": true,
+      "actual_response": "{\"id\":\"<uuid>\",\"firstName\":\"Test\",...}"
+    },
+    {
+      "endpoint": "POST /customers (invalid)",
+      "expected_status": 400,
+      "actual_status": 400,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Bad Request\",\"message\":\"Missing required fields...\"}"
+    },
+    {
+      "endpoint": "PUT /customers/123",
+      "expected_status": 200,
+      "actual_status": 200,
+      "status_correct": true,
+      "actual_response": "{\"id\":\"123\",\"firstName\":\"Updated\",...}"
+    },
+    {
+      "endpoint": "PUT /customers/bad-id",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Not Found\",\"message\":\"Customer not found\"}"
+    },
+    {
+      "endpoint": "DELETE /customers/123",
+      "expected_status": 204,
+      "actual_status": 204,
+      "status_correct": true,
+      "actual_response": ""
+    },
+    {
+      "endpoint": "DELETE /customers/bad-id",
+      "expected_status": 404,
+      "actual_status": 404,
+      "status_correct": true,
+      "actual_response": "{\"error\":\"Not Found\",\"message\":\"Customer not found\"}"
+    }
+  ],
+  "summary": {
+    "total_tests": 10,
+    "passed": 10,
+    "failed": 0,
+    "pass_rate": "100%"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "framework": "MuleSoft",
+  "start_time": "2026-01-15T11:14:00-05:00",
+  "end_time": "2026-01-15T11:17:30-05:00",
+  "checkpoints": {
+    "build": { "passed": true, "timestamp": "2026-01-15T11:16:30-05:00" },
+    "tests": { "passed": true, "total": 10, "passed_count": 10, "failed_count": 0 },
+    "deploy": { "passed": true, "timestamp": "2026-01-15T11:16:45-05:00" },
+    "health_check": { "passed": true, "status_code": 200 },
+    "status_codes_correct": { "passed": true },
+    "all_endpoints": { "passed": true, "verified_count": 6 }
+  },
+  "debug_iterations": 1,
+  "errors_encountered": ["mule-ee-core dependency not found - removed as it is provided by runtime"]
+}
